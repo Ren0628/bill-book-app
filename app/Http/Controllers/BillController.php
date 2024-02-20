@@ -20,7 +20,9 @@ class BillController extends Controller
      */
     public function create()
     {
-        return view('pages.create_bill');
+        $today = date('Y-m-d');
+
+        return view('pages.create_bill', compact('today'));
     }
 
     /**
@@ -49,8 +51,10 @@ class BillController extends Controller
         $bill->due_date = $request->due_date;
         $bill->amount = $request->amount;
         $bill->save();
+
+        $prev_issue_date = $request->issue_date;
         
-        return back();
+        return back()->with('prev_issue_date', $prev_issue_date);
     }
 
     /**
