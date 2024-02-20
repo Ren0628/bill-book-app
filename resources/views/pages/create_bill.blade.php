@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">
-                        <label class="form-label" for="issue_date">振出日</label>
+                        <label class="form-label" for="issue_date">受取日</label>
                         <input class="form-control" id="issue_date" type="date" name="issue_date" required value="{{ $set_issue_date }}">
                     </div>
                     <div class="mb-3">
@@ -41,6 +41,10 @@
                             <input class="form-check-input" id="densai" name="types_of_bills" type="radio" value="densai">
                             <label class="form-check-label" for="densai">電債</label>
                         </div>
+                        <div class="d-block">
+                            <input class="form-check-input" id="kogitte" name="types_of_bills" type="radio" value="kogitte">
+                            <label class="form-check-label" for="kogitte">小切手</label>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="issuer">振出人</label>
@@ -55,7 +59,7 @@
                     <div>
                         <div class="mb-3">
                             <label class="form-label" for="payment_address">支払地</label>
-                            <input class="form-control" id="payment_address" type="text" name="payment_address" required>
+                            <input class="form-control" id="payment_address" type="text" name="payment_address">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="payment_place">支払場所</label>

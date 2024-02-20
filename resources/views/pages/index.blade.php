@@ -47,6 +47,8 @@
                             約手
                         @elseif($bill->types_of_bills === 'densai')
                             電債
+                        @elseif($bill->types_of_bills === 'kogitte')
+                            小切手
                         @endif
                     </td>
                     <td>{{ $bill->issuer }}</td>
