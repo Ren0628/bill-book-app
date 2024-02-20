@@ -1,7 +1,15 @@
+@php
+    if(session('prev_issue_date')) {
+        $set_issue_date = session('prev_issue_date');
+    } else {
+        $set_issue_date = $today;
+    }
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
-    <div class="mt-4">
+    <div class="container mt-4">
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -17,7 +25,7 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label class="form-label" for="issue_date">振出日</label>
-                        <input class="form-control" id="issue_date" type="date" name="issue_date" required value="{{ old('issue_date') }}">
+                        <input class="form-control" id="issue_date" type="date" name="issue_date" required value="{{ $set_issue_date }}">
                     </div>
                     <div class="mb-3">
                         <div class="form-label">手形種類</div>
