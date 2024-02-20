@@ -1,0 +1,29 @@
+#bill_table th,
+#bill_table td {
+    border: 1px solid #333;
+    text-align: center;
+}
+
+#bill_table {
+    width: 100%;
+}
+
+#bill_table tr:first-child th:nth-child(-n+2) {
+    width: 6.25%;
+}
+
+#bill_table tr:first-child th:nth-child(n+3):nth-child(-n+6) {
+    width: 12.5%;
+}
+
+#bill_table tr:first-child th:nth-child(8) {
+    width: 12.5%;
+}
+
+#bill_table tr:nth-child(2) th:nth-child(n+6):nth-child(-n+18) {
+    width: 1.92%;
+}
+
+#bill_table tr:nth-child(3+n) td:nth-child(n+6):nth-child(-n+18) {
+    width: 1.92%;
+}

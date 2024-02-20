@@ -12,7 +12,9 @@ class BillController extends Controller
      */
     public function index()
     {
-        //
+        $bills = Bill::all();
+
+        return view('pages.index', compact('bills'));
     }
 
     /**

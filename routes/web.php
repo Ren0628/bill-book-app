@@ -14,9 +14,7 @@ use App\Http\Controllers\BillController;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.index');
-});
+Route::get('list', [BillController::class, 'index']);
 
 Route::get('create', [BillController::class, 'create']);
 
