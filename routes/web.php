@@ -14,8 +14,8 @@ use App\Http\Controllers\BillController;
 |
 */
 
-Route::get('list', [BillController::class, 'index']);
+Route::get('list', [BillController::class, 'index'])->name('bill.index');
 
-Route::get('create', [BillController::class, 'create']);
+Route::get('create', [BillController::class, 'create'])->name('bill.create');
 
 Route::post('store', [BillController::class, 'store'])->name('bill.store');

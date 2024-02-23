@@ -1,11 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4"> 
-        <table id="bill_table">
+    <div class="container mt-2">
+
+        <div class="row d-flex justify-content-between">
+            <div class="col-2 mb-2">
+                <form id="search_month_form" action="{{ route('bill.index') }}" method="GET">
+                    <input id="search_month_input" name="month" class="form-control" type="month" value="{{ $month }}">
+                </form>
+            </div>
+            <div class="col-1">
+                <a class="icon" href="{{ route('bill.create') }}"><i class="fa-regular fa-pen-to-square fa-2x"></i></a>
+            </div>
+        </div>
+
+        <table class="bill_table">
             <thead>
                 <tr>
-                    <th colspan="2">R12年</th>
+                    <th id="wareki" colspan="2"></th>
                     <th>手形</th>
                     <th>振出人</th>
                     <th>受取人</th>
@@ -38,8 +50,20 @@
             <tbody>
                 @foreach($bills as $bill)
                 <tr>
-                    <td>12</td>
-                    <td>12</td>
+                    <td>
+                        @if(substr($bill->issue_date, 5, 1) === '0')
+                            {{ substr($bill->issue_date, 6, 1) }}
+                        @else
+                            {{ substr($bill->issue_date, 5, 2) }}
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->issue_date, 8, 1) === '0')
+                            {{ substr($bill->issue_date, 9, 1) }}
+                        @else
+                            {{ substr($bill->issue_date, 8, 2) }}
+                        @endif
+                    </td>
                     <td>
                         @if($bill->types_of_bills === 'kawate')
                             為手
@@ -52,26 +76,123 @@
                         @endif
                     </td>
                     <td>{{ $bill->issuer }}</td>
-                    <td>{{ $bill->receiver }}{{ $bill->issue_date }}</td>
+                    <td>{{ $bill->receiver }}</td>
                     <td>{{ $bill->payment_address }}</td>
                     <td>{{ $bill->payment_place }}</td>
-                    <td>12</td>
-                    <td></td>
-                    <td>23</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{{ $bill->amount }}</td>
+                    <td>{{ substr($bill->due_date, 0, 4) - 2018 }}</td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '01')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '02')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '03')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '04')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '05')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '06')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '07')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '08')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '09')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '10')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '11')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td>
+                        @if(substr($bill->due_date, 5, 2) === '12')
+                            @if(substr($bill->due_date, 8, 1) === '0')
+                                {{ substr($bill->due_date, 9, 1) }}
+                            @else
+                                {{ substr($bill->due_date, 8, 2) }}
+                            @endif
+                        @endif
+                    </td>
+                    <td class="px-3">{{ number_format($bill->amount) }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <script src="{{ asset('/js/search-month.js') }}"></script>
 @endsection
