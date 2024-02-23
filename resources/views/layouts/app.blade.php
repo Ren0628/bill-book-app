@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="content-langage" content="ja">
 
-        <title>Laravel</title>
+        <title>手形帳</title>
 
         <!-- Fonts -->
-        
+        <script src="https://kit.fontawesome.com/3443c666dc.js" crossorigin="anonymous"></script>
 
         <!-- Styles -->
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
