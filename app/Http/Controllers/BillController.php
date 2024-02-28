@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use My_func;
 
 class BillController extends Controller
 {
@@ -20,7 +21,16 @@ class BillController extends Controller
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->whereYear('issue_date', substr($month, 0, 4))
                         ->whereMonth('issue_date', substr($month, 5, 2))
-                        ->get();
+                        ->paginate(20);
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(substr($month, 0, 4));
+
         } else {
 
             $month = date('Y-m');
@@ -28,10 +38,18 @@ class BillController extends Controller
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->whereYear('issue_date', date('Y'))
                         ->whereMonth('issue_date', date('m'))
-                        ->get(); 
+                        ->paginate(20);
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(date('Y'));
         }
 
-        return view('pages.index', compact(['bills', 'month']));
+        return view('pages.index', compact(['bills', 'month', 'wareki']));
     }
 
     /**
@@ -79,17 +97,12 @@ class BillController extends Controller
         $bill->amount = $amount;
         $bill->save();
 
+        $bill->issue_date_wareki = My_func::wareki(substr($bill->issue_date, 0, 4));
+        $bill->due_date_wareki = preg_replace('/[^0-9]/', '', My_func::wareki(substr($bill->due_date, 0, 4)));
+
         $prev_issue_date = $request->issue_date;
         
         return back()->with(['prev_issue_date' => $prev_issue_date, 'bill' => $bill]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Bill $bill)
-    {
-        //
     }
 
     /**
@@ -97,7 +110,7 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        //
+        return view('pages.edit_bill', compact('bill'));
     }
 
     /**
@@ -105,7 +118,37 @@ class BillController extends Controller
      */
     public function update(Request $request, Bill $bill)
     {
-        //
+        $request->validate([
+            'issue_date' => 'required|date',
+            'types_of_bills' => 'required',
+            'issuer' => 'required|max:255',
+            'receiver' => 'max:255',
+            'payment_address' => 'max:255',
+            'payment_place' => 'required|max:255',
+            'due_date' => 'required|date',
+            'amount' => 'required',
+        ]);
+
+        $target = array(',', '￥');
+        $amount = str_replace($target, '', $request->amount);
+
+        if(!preg_match('/^[0-9]+$/', $amount)) {
+            throw ValidationException::withMessages(['amount' => '金額が正しくありません。']);
+        }
+
+        $bill->issue_date = $request->issue_date;
+        $bill->types_of_bills = $request->types_of_bills;
+        $bill->issuer = $request->issuer;
+        $bill->receiver = $request->receiver;
+        $bill->payment_address = $request->payment_address;
+        $bill->payment_place = $request->payment_place;
+        $bill->due_date = $request->due_date;
+        $bill->amount = $amount;
+        $bill->save();
+
+        $url = '/list?month='.substr($bill->issue_date, 0, 7);
+        
+        return redirect($url);
     }
 
     /**
@@ -113,7 +156,9 @@ class BillController extends Controller
      */
     public function destroy(Bill $bill)
     {
-        //
+        $bill->delete();
+
+        return back();
     }
 
     public function get_issuer_data(Request $request)
