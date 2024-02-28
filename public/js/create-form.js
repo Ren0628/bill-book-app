@@ -36,10 +36,6 @@ issuerFormInput.addEventListener('change', (e) => {
                 receiverFormInput.value = res.receiver;
                 paymentAddressInput.value = res.payment_address;
                 paymentPlaceInput.value = res.payment_place;
-            } else {
-                receiverFormInput.value = '';
-                paymentAddressInput.value = '';
-                paymentPlaceInput.value = '';
             }
         })
         .catch((e) => {

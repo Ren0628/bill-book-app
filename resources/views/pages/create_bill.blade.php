@@ -10,6 +10,8 @@
 
 @extends('layouts.app')
 
+@section('title', '手形帳 | 入力')
+
 @section('content')
     <div class="container mt-2">
 
@@ -89,15 +91,15 @@
                 </div>
             </div>
             <div class="text-end">
-                <button class="btn btn-success" type="submit">記帳</button>
+                <button class="btn btn-success" type="submit">記入</button>
             </div>
         </form>
         @if(session('bill'))
-        <div class="text-center text-success fs-3">前回入力</div>
+        <div class="text-center text-success fs-3">前回記入</div>
         <table  class="bill_table mt-2">
             <thead>
                 <tr>
-                    <th colspan="2">年</th>
+                    <th colspan="2">{{ session('bill')->issue_date_wareki }}年</th>
                     <th>手形</th>
                     <th>振出人</th>
                     <th>受取人</th>
@@ -158,7 +160,7 @@
                     <td>{{ session('bill')->receiver }}</td>
                     <td>{{ session('bill')->payment_address }}</td>
                     <td>{{ session('bill')->payment_place }}</td>
-                    <td>{{ substr(session('bill')->due_date, 0, 4) - 2018 }}</td>
+                    <td>{{ session('bill')->due_date_wareki }}</td>
                     <td>
                         @if(substr(session('bill')->due_date, 5, 2) === '01')
                             @if(substr(session('bill')->due_date, 8, 1) === '0')
@@ -267,7 +269,7 @@
                             @endif
                         @endif
                     </td>
-                    <td class="px-3">{{ number_format(session('bill')->amount) }}</td>
+                    <td class="px-3">￥{{ number_format(session('bill')->amount) }}</td>
                 </tr>
             </tbody>
         </table>
