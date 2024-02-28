@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="content-langage" content="ja">
-
-        <title>手形帳</title>
+        <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
+        <title>@yield('title')</title>
 
         <!-- Fonts -->
         <script src="https://kit.fontawesome.com/3443c666dc.js" crossorigin="anonymous"></script>
