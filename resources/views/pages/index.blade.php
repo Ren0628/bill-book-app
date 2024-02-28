@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('title', '手形帳 | 一覧')
+
 @section('content')
     <div class="container mt-2">
 
         <div class="row d-flex justify-content-between">
             <div class="col-2 mb-2">
-                <form id="search_month_form" action="{{ route('bill.index') }}" method="GET">
+                <form id="search_month_form" action="{{ route('bill.index') }}" method="get">
                     <input id="search_month_input" name="month" class="form-control" type="month" value="{{ $month }}">
                 </form>
             </div>
@@ -14,10 +16,10 @@
             </div>
         </div>
 
-        <table class="bill_table">
+        <table class="bill_table mb-2">
             <thead>
                 <tr>
-                    <th id="wareki" colspan="2"></th>
+                    <th colspan="2">{{ $wareki }}年</th>
                     <th>手形</th>
                     <th>振出人</th>
                     <th>受取人</th>
@@ -49,6 +51,9 @@
             </thead>
             <tbody>
                 @foreach($bills as $bill)
+
+                @include('modals.delete_bill_modal')
+
                 <tr>
                     <td>
                         @if(substr($bill->issue_date, 5, 1) === '0')
@@ -75,11 +80,19 @@
                             小切手
                         @endif
                     </td>
-                    <td>{{ $bill->issuer }}</td>
+                    <td class="dropdown">
+                        <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expand="false">
+                            {{ $bill->issuer }}
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('bill.edit', $bill) }}">編集</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteBillModal{{ $bill->id }}">削除</a></li>
+                        </ul>
+                    </td>
                     <td>{{ $bill->receiver }}</td>
                     <td>{{ $bill->payment_address }}</td>
                     <td>{{ $bill->payment_place }}</td>
-                    <td>{{ substr($bill->due_date, 0, 4) - 2018 }}</td>
+                    <td>{{ $bill->due_date_wareki }}</td>
                     <td>
                         @if(substr($bill->due_date, 5, 2) === '01')
                             @if(substr($bill->due_date, 8, 1) === '0')
@@ -188,11 +201,37 @@
                             @endif
                         @endif
                     </td>
-                    <td class="px-3">{{ number_format($bill->amount) }}</td>
+                    <td class="px-3">￥{{ number_format($bill->amount) }}</td>
                 </tr>
                 @endforeach
+                @for($i= 0; $i < 20 - count($bills); $i++)
+                <tr class="empty_tr">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @endfor
             </tbody>
         </table>
+        {{ $bills->appends(request()->query())->links() }}
     </div>
     <script src="{{ asset('/js/search-month.js') }}"></script>
 @endsection

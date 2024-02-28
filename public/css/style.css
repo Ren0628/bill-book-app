@@ -109,10 +109,32 @@ input:-webkit-autofill {
     border-bottom: double rgb(197, 197, 197);
 }
 
+.dropdown-toggle::after {
+    content: none;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(13, 110, 253, 0.4);
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+}
+
 .icon {
     color: rgb(197, 197, 197);
 }
 
 .icon:hover {
     color: rgb(13, 110, 253);
+}
+
+.empty_tr td {
+    height: 26.05px;
+}
+
+.submit_icon {
+    background-color: transparent;
+    border: none;
 }
