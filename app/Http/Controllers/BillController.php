@@ -19,6 +19,7 @@ class BillController extends Controller
             $month = $request->month;
 
             $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '!=', '1')
                         ->whereYear('issue_date', substr($month, 0, 4))
                         ->whereMonth('issue_date', substr($month, 5, 2))
                         ->paginate(20);
@@ -36,6 +37,7 @@ class BillController extends Controller
             $month = date('Y-m');
 
             $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '!=', '1')
                         ->whereYear('issue_date', date('Y'))
                         ->whereMonth('issue_date', date('m'))
                         ->paginate(20);
@@ -50,6 +52,152 @@ class BillController extends Controller
         }
 
         return view('pages.index', compact(['bills', 'month', 'wareki']));
+    }
+
+    public function bill_payable_list(Request $request)
+    {
+        if(isset($request->month)){
+
+            $month = $request->month;
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '=', '1')
+                        ->whereYear('issue_date', substr($month, 0, 4))
+                        ->whereMonth('issue_date', substr($month, 5, 2))
+                        ->paginate(20);
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(substr($month, 0, 4));
+
+        } else {
+
+            $month = date('Y-m');
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '=', '1')
+                        ->whereYear('issue_date', date('Y'))
+                        ->whereMonth('issue_date', date('m'))
+                        ->paginate(20);
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(date('Y'));
+        }
+
+        return view('pages.index', compact(['bills', 'month', 'wareki']));
+    }
+
+    public function due_date_receive_list(Request $request)
+    {
+        if(isset($request->month)){
+
+            $month = $request->month;
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '!=', '1')
+                        ->whereYear('due_date', substr($month, 0, 4))
+                        ->whereMonth('due_date', substr($month, 5, 2))
+                        ->paginate(20);
+
+            $sumAmount = Bill::where('issuer', '!=', '1')
+                            ->whereYear('due_date', substr($month, 0, 4))
+                            ->whereMonth('due_date', substr($month, 5, 2))
+                            ->sum('amount');
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(substr($month, 0, 4));
+
+        } else {
+
+            $month = date('Y-m');
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '!=', '1')
+                        ->whereYear('due_date', date('Y'))
+                        ->whereMonth('due_date', date('m'))
+                        ->paginate(20);
+
+            $sumAmount = Bill::where('issuer', '!=', '1')
+                            ->whereYear('due_date', substr($month, 0, 4))
+                            ->whereMonth('due_date', substr($month, 5, 2))
+                            ->sum('amount');
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(date('Y'));
+        }
+
+        return view('pages.index', compact(['bills', 'month', 'wareki', 'sumAmount']));
+    }
+
+    public function due_date_pay_list(Request $request)
+    {
+        if(isset($request->month)){
+
+            $month = $request->month;
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '=', '1')
+                        ->whereYear('due_date', substr($month, 0, 4))
+                        ->whereMonth('due_date', substr($month, 5, 2))
+                        ->paginate(20);
+
+            $sumAmount = Bill::where('issuer', '=', '1')
+                            ->whereYear('due_date', substr($month, 0, 4))
+                            ->whereMonth('due_date', substr($month, 5, 2))
+                            ->sum('amount');
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(substr($month, 0, 4));
+
+        } else {
+
+            $month = date('Y-m');
+
+            $bills = Bill::orderby('issue_date', 'ASC')
+                        ->where('issuer', '=', '1')
+                        ->whereYear('due_date', date('Y'))
+                        ->whereMonth('due_date', date('m'))
+                        ->paginate(20);
+
+            $sumAmount = Bill::where('issuer', '=', '1')
+                            ->whereYear('due_date', substr($month, 0, 4))
+                            ->whereMonth('due_date', substr($month, 5, 2))
+                            ->sum('amount');
+
+            foreach($bills as $bill){
+                $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
+                $dueDateWareki = preg_replace('/[^0-9]/', '', $dueDateWareki);
+                $bill->due_date_wareki = $dueDateWareki;
+            }
+
+            $wareki = My_func::wareki(date('Y'));
+        }
+
+        return view('pages.index', compact(['bills', 'month', 'wareki', 'sumAmount']));
     }
 
     /**
@@ -146,7 +294,11 @@ class BillController extends Controller
         $bill->amount = $amount;
         $bill->save();
 
-        $url = '/list?month='.substr($bill->issue_date, 0, 7);
+        if($bill->issuer == 1){
+            $url = '/paylist?month='.substr($bill->issue_date, 0, 7);
+        } else {
+            $url = '/list?month='.substr($bill->issue_date, 0, 7);
+        }
         
         return redirect($url);
     }
@@ -166,7 +318,12 @@ class BillController extends Controller
         $issuer_data = Bill::orderby('id', 'DESC')
                             ->where('issuer', '=', $request->issuer)
                             ->first();
-        
-        return response()->json($issuer_data, 200);
+        if($issuer_data){
+            if($issuer_data->issuer == 1){
+                $issuer_data->receiver = "";
+            }
+        }
+
+        return response()->json($issuer_data, 200); 
     }
 }
