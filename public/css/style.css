@@ -56,6 +56,10 @@ input:-webkit-autofill {
     border-left: double rgb(197, 197, 197);
 }
 
+.bill_table thead tr:nth-child(2) th:nth-child(-n+2) {
+    width: 3.125%;
+}
+
 .bill_table thead tr:nth-child(2) th:nth-child(n+2):nth-child(-n+5) {
     border-right: double rgb(197, 197, 197);
 }
@@ -109,6 +113,18 @@ input:-webkit-autofill {
     border-bottom: double rgb(197, 197, 197);
 }
 
+tfoot tr {
+    border: solid 4px rgb(197, 197, 197);
+}
+
+.bill_table tfoot .sum_amount {
+    border: solid 4px rgb(197, 197, 197);
+}
+
+.dropdown-toggle {
+    height: 23.05px;
+}
+
 .dropdown-toggle::after {
     content: none;
 }
@@ -124,10 +140,16 @@ input:-webkit-autofill {
 
 .icon {
     color: rgb(197, 197, 197);
+    text-decoration: none;
 }
 
 .icon:hover {
     color: rgb(13, 110, 253);
+}
+
+.icon_label{
+    font-size: 12px;
+    writing-mode: vertical-rl;
 }
 
 .empty_tr td {
@@ -137,4 +159,14 @@ input:-webkit-autofill {
 .submit_icon {
     background-color: transparent;
     border: none;
+}
+
+.month_input {
+    width: 200px;
+}
+
+.table_container {
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
