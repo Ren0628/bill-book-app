@@ -3,7 +3,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="deleteBillModalLabel{{ $bill->id }}">
-                受取日：
+                受取日:
                 @if(substr($bill->issue_date, 5, 1) === '0')
                     {{ substr($bill->issue_date, 6, 1) }}
                 @else
@@ -16,7 +16,11 @@
                     {{ substr($bill->issue_date, 8, 2) }}
                 @endif
                 日
-                「{{ $bill->issuer }} ￥{{ number_format($bill->amount) }}」
+                「
+                @if(mb_convert_kana($bill->issuer, 'n') != '1')
+                    {{ $bill->issuer }}
+                @endif 
+                ￥{{ number_format($bill->amount) }}」
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
