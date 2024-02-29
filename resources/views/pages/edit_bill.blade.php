@@ -7,10 +7,14 @@
     <div class="container mt-2">
 
         <div class="row d-flex justify-content-end">
-            <div class="col-1">
+            <div class="col-2 text-end">
+                @if($bill->issuer == 1)
+                <form action="{{ route('bill.paylist') }}">
+                @else
                 <form action="{{ route('bill.index') }}">
+                @endif
                     <input type="hidden" name="month" value="{{ substr($bill->issue_date, 0, 7) }}">
-                    <button class="icon submit_icon" type="submit"><i class="fa-solid fa-file-lines fa-2x"></i></button>
+                    <button class="icon submit_icon" type="submit"><span class="icon_label">戻る</span><i class="fa-solid fa-arrow-left fa-2x"></i></button>
                 </form>
             </div>
         </div>

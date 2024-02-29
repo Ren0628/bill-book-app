@@ -10,14 +10,15 @@
 
 @extends('layouts.app')
 
-@section('title', '手形帳 | 入力')
+@section('title', '手形帳 | 記入')
 
 @section('content')
     <div class="container mt-2">
 
         <div class="row d-flex justify-content-end">
-            <div class="col-1">
-                <a class="icon" href="{{ route('bill.index') }}"><i class="fa-solid fa-file-lines fa-2x"></i></a>
+            <div class="col-2 text-end">
+                <a class="icon mx-1" href="{{ route('bill.index') }}"><span class="icon_label">受手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
+                <a class="icon mx-1" href="{{ route('bill.paylist') }}"><span class="icon_label">払手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
             </div>
         </div>
 
@@ -59,7 +60,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="issuer">振出人</label>
+                        <label class="form-label" for="issuer">振出人</label><div class="form-text d-inline-block mx-3">※支払手形は１を入力してください</div>
                         <input class="form-control" id="issuer" type="text" name="issuer" required value="{{ old('issuer') }}">
                     </div>
                     <div class="mb-3">
@@ -156,7 +157,11 @@
                             小切手
                         @endif
                     </td>
-                    <td>{{ session('bill')->issuer }}</td>
+                    <td>
+                        @if(mb_convert_kana(session('bill')->issuer, 'n') != '1')
+                            {{ session('bill')->issuer }}
+                        @endif
+                    </td>
                     <td>{{ session('bill')->receiver }}</td>
                     <td>{{ session('bill')->payment_address }}</td>
                     <td>{{ session('bill')->payment_place }}</td>
