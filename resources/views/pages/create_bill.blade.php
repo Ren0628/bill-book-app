@@ -18,7 +18,7 @@
         <div class="row d-flex justify-content-end">
             <div class="col-2 text-end">
                 <a class="icon mx-1" href="{{ route('bill.index') }}"><span class="icon_label">受手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
-                <a class="icon mx-1" href="{{ route('bill.paylist') }}"><span class="icon_label">払手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
+                <a class="icon mx-1" href="{{ route('bill.paylist') }}"><span class="icon_label">支手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
             </div>
         </div>
 
