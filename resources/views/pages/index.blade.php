@@ -59,20 +59,20 @@
             </div>
             <div class="col-4 text-end">
                 @if(Request::is('duedate-receive*'))
-                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">払期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
-                <a class="icon" href="{{ route('bill.paylist') }}"><span class="icon_label">払手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
+                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">支期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
+                <a class="icon" href="{{ route('bill.paylist') }}"><span class="icon_label">支手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 <a class="icon me-4" href="{{ route('bill.index') }}"><span class="icon_label">受手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 @elseif(Request::is('duedate-pay*'))
                 <a class="icon me-4" href="{{ route('bill.duedatereceive') }}"><span class="icon_label">受期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
-                <a class="icon" href="{{ route('bill.paylist') }}"><span class="icon_label">払手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
+                <a class="icon" href="{{ route('bill.paylist') }}"><span class="icon_label">支手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 <a class="icon me-4" href="{{ route('bill.index') }}"><span class="icon_label">受手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 @elseif(Request::is('list*'))
                 <a class="icon" href="{{ route('bill.duedatereceive') }}"><span class="icon_label">受期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
-                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">払期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
-                <a class="icon me-4" href="{{ route('bill.paylist') }}"><span class="icon_label">払手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
+                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">支期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
+                <a class="icon me-4" href="{{ route('bill.paylist') }}"><span class="icon_label">支手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 @elseif(Request::is('paylist*'))
                 <a class="icon" href="{{ route('bill.duedatereceive') }}"><span class="icon_label">受期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
-                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">払期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
+                <a class="icon me-4" href="{{ route('bill.duedatepay') }}"><span class="icon_label">支期</span><i class="fa-solid fa-check fa-2x"></i></i></a>
                 <a class="icon me-4" href="{{ route('bill.index') }}"><span class="icon_label">受手</span><i class="fa-solid fa-file-lines fa-2x"></i></a>
                 @endif
                 <a class="icon me-2" href="{{ route('bill.create') }}"><span class="icon_label">記入</span><i class="fa-regular fa-pen-to-square fa-2x"></i></a>
@@ -154,7 +154,14 @@
                             @endif
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('bill.edit', $bill) }}">編集</a></li>
+                            <li>
+                                <form action="{{ route('bill.edit', $bill) }}" method="get">
+                                    @if(request()->query('page'))
+                                    <input type="hidden" name="prevpage" value="{{ request()->query('page') }}">
+                                    @endif
+                                    <input type="submit" value="編集" class="dropdown-item">
+                                </form>
+                            </li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteBillModal{{ $bill->id }}">削除</a></li>
                         </ul>
                     </td>
@@ -270,7 +277,7 @@
                             @endif
                         @endif
                     </td>
-                    <td class="px-3">￥{{ number_format($bill->amount) }}</td>
+                    <td class="px-1">￥{{ number_format($bill->amount) }}</td>
                 </tr>
                 @endforeach
                 @for($i= 0; $i < 20 - count($bills); $i++)
@@ -311,12 +318,11 @@
                         @endif
                         合計
                     </th>
-                    <th class="sum_amount px-3 text-end">
-                        ￥
+                    <th class="sum_amount px-1 text-end">
                         @isset($sumAmount)
-                            {{ number_format($sumAmount) }}
+                        ￥{{ number_format($sumAmount) }}
                         @else
-                            0
+                        ￥ 0
                         @endisset
                     </th>
                 </tr>

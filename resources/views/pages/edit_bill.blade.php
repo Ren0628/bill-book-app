@@ -8,12 +8,15 @@
 
         <div class="row d-flex justify-content-end">
             <div class="col-2 text-end">
-                @if($bill->issuer == 1)
-                <form action="{{ route('bill.paylist') }}">
+                @if(mb_convert_kana($bill->issuer, 'n') == '1')
+                <form action="{{ route('bill.paylist') }}" method="get">
                 @else
-                <form action="{{ route('bill.index') }}">
+                <form action="{{ route('bill.index') }}" method="get">
                 @endif
                     <input type="hidden" name="month" value="{{ substr($bill->issue_date, 0, 7) }}">
+                    @if(request()->query('prevpage'))
+                    <input type="hidden" name="page" value="{{ request()->query('prevpage') }}">
+                    @endif
                     <button class="icon submit_icon" type="submit"><span class="icon_label">戻る</span><i class="fa-solid fa-arrow-left fa-2x"></i></button>
                 </form>
             </div>
@@ -31,6 +34,9 @@
 
         <form action="{{ route('bill.update', $bill) }}" method="post">
         @csrf
+        @if(request()->query('prevpage'))
+        <input type="hidden" name="prevpage" value="{{ request()->query('prevpage') }}">
+        @endif
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">
