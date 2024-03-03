@@ -1,0 +1,89 @@
+* {
+    font-family: ipag;
+    font-size: 12px;
+}
+
+.heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.bill_table th,
+.bill_table td {
+    border: 1px solid rgb(197, 197, 197);
+    text-align: center;
+}
+
+.bill_table td:last-child {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.bill_table {
+    width: 100%;
+    border: 3px solid rgb(197, 197, 197);
+    border-collapse:  collapse;
+}
+
+.table_container {
+    width: 100%;
+}
+
+.bill_table .amount_th {
+    width: 9%;
+    text-align: center;
+}
+
+.bill_table .month_th {
+    width: 2.5%;
+}
+
+.bill_table .day_th {
+    width: 2.5%;
+}
+
+.bill_table .types_of_bills_th {
+    width: 5%;
+}
+
+.bill_table .issuer_th {
+    width: 15%;
+}
+
+.bill_table .payment_address_th {
+    width: 10%;
+}
+
+.bill_table .due_date_th {
+    width: 2%;
+    border-bottom: 3px solid rgb(197, 197, 197);
+}
+
+.th {
+    font-size: 14px;
+}
+
+.bill_table .th_top {
+    border-top: 3px solid rgb(197, 197, 197);
+}
+
+.bill_table .th_mid {
+    border-bottom: 3px solid rgb(197, 197, 197);
+    border-top: 3px solid rgb(197, 197, 197);
+}
+
+.bill_table .th_bottom {
+    border-bottom: 3px solid rgb(197, 197, 197);
+}
+
+.bill_table .border_top_none {
+    border-top: none;
+}
+
+.bill_table .border_bottom_none {
+    border-bottom: none;
+}
+
+.bill_table .border_right {
+    border-right: 3px solid rgb(197, 197, 197);
+}
