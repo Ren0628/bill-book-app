@@ -6,6 +6,7 @@ use App\Models\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use My_func;
+use DateTime;
 
 class BillController extends Controller
 {
@@ -34,12 +35,13 @@ class BillController extends Controller
 
         } else {
 
-            $month = date('Y-m');
+            $date = new DateTime();
+            $month = $date->format('Y-m');
 
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->where('issuer', '!=', '1')
-                        ->whereYear('issue_date', date('Y'))
-                        ->whereMonth('issue_date', date('m'))
+                        ->whereYear('issue_date', $date->format('Y'))
+                        ->whereMonth('issue_date', $date->format('m'))
                         ->paginate(20);
 
             foreach($bills as $bill){
@@ -48,7 +50,7 @@ class BillController extends Controller
                 $bill->due_date_wareki = $dueDateWareki;
             }
 
-            $wareki = My_func::wareki(date('Y'));
+            $wareki = My_func::wareki($date->format('Y'));
         }
 
         return view('pages.index', compact(['bills', 'month', 'wareki']));
@@ -76,12 +78,13 @@ class BillController extends Controller
 
         } else {
 
-            $month = date('Y-m');
+            $date = new DateTime();
+            $month = $date->format('Y-m');
 
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->where('issuer', '=', '1')
-                        ->whereYear('issue_date', date('Y'))
-                        ->whereMonth('issue_date', date('m'))
+                        ->whereYear('issue_date', $date->format('Y'))
+                        ->whereMonth('issue_date', $date->format('m'))
                         ->paginate(20);
 
             foreach($bills as $bill){
@@ -90,7 +93,7 @@ class BillController extends Controller
                 $bill->due_date_wareki = $dueDateWareki;
             }
 
-            $wareki = My_func::wareki(date('Y'));
+            $wareki = My_func::wareki($date->format('Y'));
         }
 
         return view('pages.index', compact(['bills', 'month', 'wareki']));
@@ -123,12 +126,13 @@ class BillController extends Controller
 
         } else {
 
-            $month = date('Y-m');
+            $month = $date = new DateTime();
+            $month = $date->format('Y-m');
 
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->where('issuer', '!=', '1')
-                        ->whereYear('due_date', date('Y'))
-                        ->whereMonth('due_date', date('m'))
+                        ->whereYear('due_date', $date->format('Y'))
+                        ->whereMonth('due_date', $date->format('m'))
                         ->paginate(20);
 
             $sumAmount = Bill::where('issuer', '!=', '1')
@@ -142,7 +146,7 @@ class BillController extends Controller
                 $bill->due_date_wareki = $dueDateWareki;
             }
 
-            $wareki = My_func::wareki(date('Y'));
+            $wareki = My_func::wareki($date->format('Y'));
         }
 
         return view('pages.index', compact(['bills', 'month', 'wareki', 'sumAmount']));
@@ -175,12 +179,13 @@ class BillController extends Controller
 
         } else {
 
-            $month = date('Y-m');
+            $month = $date = new DateTime();
+            $month = $date->format('Y-m');
 
             $bills = Bill::orderby('issue_date', 'ASC')
                         ->where('issuer', '=', '1')
-                        ->whereYear('due_date', date('Y'))
-                        ->whereMonth('due_date', date('m'))
+                        ->whereYear('due_date', $date->format('Y'))
+                        ->whereMonth('due_date', $date->format('m'))
                         ->paginate(20);
 
             $sumAmount = Bill::where('issuer', '=', '1')
@@ -194,7 +199,7 @@ class BillController extends Controller
                 $bill->due_date_wareki = $dueDateWareki;
             }
 
-            $wareki = My_func::wareki(date('Y'));
+            $wareki = My_func::wareki($date->format('Y'));
         }
 
         return view('pages.index', compact(['bills', 'month', 'wareki', 'sumAmount']));
@@ -294,10 +299,18 @@ class BillController extends Controller
         $bill->amount = $amount;
         $bill->save();
 
-        if($bill->issuer == 1){
-            $url = '/paylist?month='.substr($bill->issue_date, 0, 7);
+        if(mb_convert_kana($bill->issuer, 'n') == '1'){
+            if($request->prevpage) {
+                $url = '/paylist?month='.substr($bill->issue_date, 0, 7).'&page='.$request->prevpage;
+            } else {
+                $url = '/paylist?month='.substr($bill->issue_date, 0, 7);
+            }
         } else {
-            $url = '/list?month='.substr($bill->issue_date, 0, 7);
+            if($request->prevpage) {
+                $url = '/list?month='.substr($bill->issue_date, 0, 7).'&page='.$request->prevpage;;
+            } else {
+                $url = '/list?month='.substr($bill->issue_date, 0, 7);
+            }
         }
         
         return redirect($url);
@@ -319,7 +332,7 @@ class BillController extends Controller
                             ->where('issuer', '=', $request->issuer)
                             ->first();
         if($issuer_data){
-            if($issuer_data->issuer == 1){
+            if(mb_convert_kana($issuer_data->issuer, 'n') == '1'){
                 $issuer_data->receiver = "";
             }
         }
