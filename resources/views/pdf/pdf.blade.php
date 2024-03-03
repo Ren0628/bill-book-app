@@ -54,6 +54,7 @@
                         <td class="due_date_th th border_right">12</td>
                     </tr>
                 </thead>
+                @if($bills->isNotEmpty())
                 <tbody>
                     @foreach($bills as $bill)
                     <tr>
@@ -203,6 +204,7 @@
                     </tr>
                     @endforeach
                 </tbody>
+                @endif
             </table>
             <div class="heading">支払手形 {{ $year }}年{{ $lastMonth }}月</div>
             <table class="bill_table mb-2">
@@ -240,6 +242,7 @@
                         <td class="due_date_th th border_right">12</td>
                     </tr>
                 </thead>
+                @if($paybills->isNotEmpty())
                 <tbody>
                     @foreach($paybills as $bill)
                     <tr>
@@ -389,6 +392,7 @@
                     </tr>
                     @endforeach
                 </tbody>
+                @endif
             </table>
         </div>
         <script type="text/php">
