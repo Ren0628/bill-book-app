@@ -45,7 +45,7 @@ issuerFormInput.addEventListener('change', (e) => {
 
 amountFormInput.addEventListener('change', (e) => {
     
-    strAmount = new String(toHalfWidthStr(e.target.value)).replace(/,|￥/g, '');
+    strAmount = new String(toHalfWidthStr(e.target.value)).replace(/,|￥|\uff0c/g, '');
     
     amountFormInput.value = Number(strAmount).toLocaleString('jp',{style:'currency',currency:'JPY'});
 });
