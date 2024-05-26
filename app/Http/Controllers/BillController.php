@@ -234,7 +234,7 @@ class BillController extends Controller
         $target = array(',', '￥');
         $amount = str_replace($target, '', $request->amount);
 
-        if(!preg_match('/^[0-9]+$/', $amount)) {
+        if(!preg_match('/^[0-9]+$/', $amount) || $amount >= 1000000000) {
             throw ValidationException::withMessages(['amount' => '金額が正しくありません。']);
         }
 
