@@ -27,4 +27,4 @@ Route::get('edit/{bill}', [BillController::class, 'edit'])->name('bill.edit');
 Route::post('update/{bill}', [BillController::class, 'update'])->name('bill.update');
 Route::post('delete/{bill}', [BillController::class, 'destroy'])->name('bill.delete');
 
-Route::get('pdf', [PdfController::class, 'pdf_download'])->name('bill.pdf');
+// Route::get('pdf', [PdfController::class, 'pdf_download'])->name('bill.pdf');
