@@ -20,7 +20,7 @@ let toHalfWidthStr = (str) => {
 
 issuerFormInput.addEventListener('change', (e) => {
     
-    fetch('http://localhost/laravel-billbook-app/public/api/issuerdata',{
+    fetch(apiUrl , {
         method:'POST',
         headers: {
             'Content-Type': 'application/json',

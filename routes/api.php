@@ -15,4 +15,4 @@ use App\Http\Controllers\BillController;
 |
 */
 
-Route::post('issuerdata', [BillController::class, 'get_issuer_data']);
+Route::post('issuerdata', [BillController::class, 'get_issuer_data'])->name('issuerdata');

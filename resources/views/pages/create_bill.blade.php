@@ -280,5 +280,6 @@
         </table>
         @endif
     </div>
+    <script>const apiUrl = '{{ route('issuerdata') }}'</script>
     <script src="{{ asset('/js/create-form.js') }}"></script>
 @endsection
