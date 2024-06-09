@@ -18,6 +18,7 @@ let toHalfWidthStr = (str) => {
     return str;
 }
 
+
 issuerFormInput.addEventListener('change', (e) => {
     
     fetch(apiUrl , {
