@@ -34,7 +34,7 @@ class PdfController extends Controller
                         ->whereMonth('issue_date', $date->format('m'))
                         ->get();
 
-            if($bills->isNotEmpty() | $paybills->isNotEmpty()){
+            if($bills->isNotEmpty() || $paybills->isNotEmpty()){
 
                 foreach($bills as $bill){
                     $dueDateWareki = My_func::wareki(substr($bill->due_date, 0, 4));
